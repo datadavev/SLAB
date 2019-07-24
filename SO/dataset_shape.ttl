@@ -1,0 +1,67 @@
+# Dataset shape constraints encoded in Turtle (https://www.w3.org/TeamSubmission/turtle/)
+@prefix dash: <http://datashapes.org/dash#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <http://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix d1: <http://ns.dataone.org/schema/SO#> .
+
+d1:DatasetShape
+    # Specifies required properties of a Dataset instance which 
+    # is used to describe a dataset and how it can be accessed.
+    a sh:NodeShape ;
+    sh:targetClass schema:Dataset ;
+
+    sh:property [
+        sh:path schema:identifier ;
+        sh:minCount 1 ;
+        sh:message "A dataset must have an identifier. All components of the dataset must be discoverable when resolving the identifier"@en ;
+    ] ;
+    sh:property [
+        sh:path schema:distribution ;
+        sh:node d1:DistributionShape ;
+    ] ;
+
+    sh:property [
+        # A Dataset must have an encoding property of type MediaObject
+        # The encoding property provides the location and format of
+        # an alternate encoding of metadata describing the dataset.
+        
+        sh:path schema:encoding ;
+        sh:class schema:MediaObject ;
+        sh:minCount 1 ;
+        sh:message "A MediaObject is required in order to identify the location of the XML encoding of the metadata."@en ;
+        sh:severity sh:Violation ;
+        
+        sh:property [
+            # The contentUrl must be provided and is expected to resolve to the described serialization
+            # of the metadata.
+            
+            sh:path schema:contentUrl ;
+            sh:minCount 1 ;
+            sh:severity sh:Violation ;
+            sh:message "A contentUrl must provide the location of the metadata encoding."@en ;
+        ] ;
+        
+        sh:property [            
+            sh:path schema:encodingFormat ;
+            sh:minCount 1 ;
+            sh:severity sh:Warning ;
+            sh:message "The encoding format drawn from the list of DataONE formatIds should be provided to avoid ambiguity."@en ;
+        ] ;
+        
+        sh:property [
+            sh:path schema:dateModified ;
+            sh:minCount 1 ;
+            sh:severity sh:Warning ;
+            sh:message "A dateModified property indicating when the encoding was last updated is recommended."@en ;
+        ] ;
+    ] .
+
+d1:DistributionShape 
+    sh:targetClass schema:DataDownload ;
+    sh:property [
+        sh:path schema:contentUrl ;
+        sh:minCount 1 ;
+    ] .    

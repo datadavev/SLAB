@@ -3,3 +3,4 @@ prettytable
 requests
 werkzeug
 pylab
+scipy

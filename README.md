@@ -7,4 +7,6 @@ tags: [GitHub, Jupyter]
 
 Miscellaneous Jupyter Labs documents
 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/datadavev/SLAB/master)
+
 

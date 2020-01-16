@@ -1,0 +1,6 @@
+pandas
+prettytable
+requests
+werkzeug
+pylab
+scipy
